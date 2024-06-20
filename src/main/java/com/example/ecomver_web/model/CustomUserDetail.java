@@ -1,5 +1,6 @@
 package com.example.ecomver_web.model;
 
+import com.example.ecomver_web.model.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;

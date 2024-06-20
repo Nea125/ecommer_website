@@ -1,6 +1,6 @@
 package com.example.ecomver_web.repository;
 
-import com.example.ecomver_web.model.OrderItem;
+import com.example.ecomver_web.model.entity.OrderItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {

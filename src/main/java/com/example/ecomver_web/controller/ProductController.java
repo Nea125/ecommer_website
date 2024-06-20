@@ -1,59 +1,50 @@
 package com.example.ecomver_web.controller;
-import com.example.ecomver_web.repository.ProductRepository;
-import com.example.ecomver_web.exception.ResourceNotFoundException;
-import com.example.ecomver_web.model.Product;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import com.example.ecomver_web.model.entity.Product;
+import com.example.ecomver_web.model.request.ProductRequest;
+import com.example.ecomver_web.service.ProductService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
+
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductService productService;
 
-    // Get all products
-    @GetMapping
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public ProductController(ProductService productService) {
+        this.productService = productService;
     }
 
-    // Get a product by ID
     @GetMapping("/{id}")
-    public Product getProductById(@PathVariable Long id) {
-        return productRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
+    public ResponseEntity<Product> getProductById(@PathVariable Long id) {
+        Product product = productService.findProductById(id);
+        return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
-    // Create a new product
+    @GetMapping
+    public ResponseEntity<List<Product>> getAllProducts() {
+        List<Product> products = productService.findAllProducts();
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
     @PostMapping
-    public Product createProduct(@RequestBody Product product) {
-        return productRepository.save(product);
+    public ResponseEntity<Product> createProduct(@RequestBody ProductRequest productRequest) {
+        productService.addNewProduct(productRequest);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    // Update a product
     @PutMapping("/{id}")
-    public Product updateProduct(@PathVariable Long id, @RequestBody Product productDetails) {
-        Product product = productRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
-        product.setName(productDetails.getName());
-        product.setDescription(productDetails.getDescription());
-        product.setPrice(productDetails.getPrice());
-        product.setStockQuantity(productDetails.getStockQuantity());
-        product.setCategory(productDetails.getCategory());
-
-        return productRepository.save(product);
+    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody ProductRequest productRequest) {
+        productService.updateProductById(id, productRequest);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    // Delete a product
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
-        Product product = productRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
-
-        productRepository.delete(product);
-
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+        productService.deleteProductById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
-

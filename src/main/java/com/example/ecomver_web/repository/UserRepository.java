@@ -1,10 +1,7 @@
 package com.example.ecomver_web.repository;
 
-import com.example.ecomver_web.model.User;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import com.example.ecomver_web.model.entity.User;
+import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface UserRepository{
@@ -14,6 +11,11 @@ public interface UserRepository{
     """)
     @Results(id = "userMapping",value = {
     })
-    User findUserByEmail(String username);
+    User findUserByUsername(String username);
+    @Insert("""
+    INSERT INTO tbUser(username,phoneNumber,password)
+    VALUES (#{user.username}, #{user.phoneNumber}, #{user.password})
+    """)
+    void createNewUser(@Param("user") User user);
 }
 
