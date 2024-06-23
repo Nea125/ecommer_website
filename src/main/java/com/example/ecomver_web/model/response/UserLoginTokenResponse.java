@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class UserLoginTokenResponse {
     private String message;
     private HttpStatus status;
-    private String token;
     private Integer code;
+    private String token;
     private LocalDateTime time;
 }

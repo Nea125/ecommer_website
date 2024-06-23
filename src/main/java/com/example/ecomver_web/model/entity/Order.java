@@ -1,37 +1,21 @@
 package com.example.ecomver_web.model.entity;
 
-import jakarta.persistence.*;
-import java.util.Date;
+import com.example.ecomver_web.model.response.UserResponse;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 import java.util.List;
-
-@Entity
-@Table(name = "orders")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Order {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date orderDate;
-
-    private double totalAmount;
-
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-     List<OrderItem> orderItems;
-
-    public Order(List<OrderItem> orderItems) {
-        this.orderItems = orderItems;
-    }
-
-    public Order() {
-
-    }
-
-    // Constructors, getters, setters, and other methods
+    private UserResponse user;
+    private LocalDateTime orderDate;
+    private Double totalAmount;
+    private Byte isPaid;
+    List<OrderItem> orderItems;
 }
 

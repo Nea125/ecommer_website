@@ -5,12 +5,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class UserRegisterResponse {
-    private Long userId;
-    private String username;
-    private String phoneNumber;
-
-
+@AllArgsConstructor
+public class FileResponse {
+    private String fileName;
+    private String fileType;
+    private Long fileSize;
 }

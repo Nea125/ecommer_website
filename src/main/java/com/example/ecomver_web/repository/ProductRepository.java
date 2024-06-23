@@ -1,10 +1,7 @@
 package com.example.ecomver_web.repository;
-
 import com.example.ecomver_web.model.entity.Product;
 import org.apache.ibatis.annotations.*;
-
 import java.util.List;
-
 @Mapper
 public interface ProductRepository {
 
@@ -17,8 +14,9 @@ public interface ProductRepository {
             @Result(property = "price", column = "price"),
             @Result(property = "stockQuantity", column = "stockQTY"),
             @Result(property = "category", column = "categoryId",
-                    one = @One(select = "com.example.ecomver_web.repository.CategoryRepository.findById"))
+                    one = @One(select = "com.example.ecomver_web.repository.CategoryRepository.findCategoryById"))
     })
+
     Product findById(Long productId);
 
     @Select("SELECT * FROM tbProduct")
@@ -36,4 +34,11 @@ public interface ProductRepository {
 
     @Delete("DELETE FROM tbProduct WHERE productId = #{productId}")
     void deleteById(Long productId);
+
+    @Update("""
+    UPDATE tbproduct
+    SET stockQTY = #{newQuantity}
+    WHERE productId = #{productId}
+    """)
+    void updateProductStock(Long productId, Long newQuantity);
 }
