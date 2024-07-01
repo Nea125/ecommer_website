@@ -23,11 +23,17 @@ public interface OrderRepository {
     })
     Order findOrderById(Long id);
 
-    @Insert("INSERT INTO tbOrder (userId, totalAmount, isPaid) " +
-            "VALUES (#{user.userId}, #{totalAmount}, #{isPaid})")
-    Long createOrder(Order order);
+    @Insert("""
+    INSERT INTO tbOrder (userId, totalAmount)
+    VALUES (#{order.user.userId}, #{order.totalAmount}) RETURNING orderId
+    """)
+    @Options(useGeneratedKeys = true, keyProperty = "orderId", keyColumn = "orderId")
+    Long createOrder(@Param("order") Order order);
 
     @Select("SELECT * FROM tbOrder WHERE userId = #{userId}")
     @ResultMap("orderMapping")
     List<Order> getAllOrders(Long userId);
+
+    @Update("UPDATE tbOrder SET totalAmount = #{totalAmount} WHERE orderId = #{orderId}")
+    void updateOrder(Order order);
 }

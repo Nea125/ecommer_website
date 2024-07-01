@@ -12,7 +12,7 @@ import java.util.List;
 public interface OrderItemRepository {
 
     @Insert("INSERT INTO tborderitem (orderId, productId, quantity) " +
-            "VALUES (#{order.order.orderId}, #{order.product.productId}, #{order.quantity})")
+            "VALUES (#{order.order}, #{order.product}, #{order.quantity})")
     void addOrderItem(@Param("order") OrderItemRequest orderItem);
 
     @Select("SELECT * FROM tborderitem WHERE orderId = #{orderId}")

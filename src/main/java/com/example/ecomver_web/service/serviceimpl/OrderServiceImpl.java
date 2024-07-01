@@ -49,24 +49,39 @@ public class OrderServiceImpl implements OrderService {
         String username = authentication.getName();
         User user = userRepository.findUserByUsername(username);
         UserResponse userResponse = modelMapper.map(user, UserResponse.class);
+
         Order order = new Order();
         order.setUser(userResponse);
         order.setTotalAmount(0.0);
+        System.out.println(order.getUser());
+
+        // Crear la orden y obtener el orderId generado
         Long orderId = orderRepository.createOrder(order);
+        if (orderId == null || orderId == -1) {
+            throw new RuntimeException("Failed to create order");
+        }
+        System.out.println(orderId);
+        order.setOrderId(orderId);
+
         double totalAmount = 0.0;
         for (Long productId : orderRequest.getProduct()) {
             Product product = productRepository.findById(productId);
             Long newQuantity = product.getStockQuantity() - orderRequest.getQuantity();
             productRepository.updateProductStock(productId, newQuantity);
             totalAmount += orderRequest.getQuantity() * product.getPrice();
+
             OrderItemRequest orderItemRequest = new OrderItemRequest();
             orderItemRequest.setOrder(orderId);
             orderItemRequest.setProduct(productId);
             orderItemRequest.setQuantity(orderRequest.getQuantity());
+            System.out.println(orderItemRequest);
             orderItemRepository.addOrderItem(orderItemRequest);
         }
+
         order.setTotalAmount(totalAmount);
+        orderRepository.updateOrder(order);
     }
+
 
     @Override
     public List<Order> findAllOrders() {
