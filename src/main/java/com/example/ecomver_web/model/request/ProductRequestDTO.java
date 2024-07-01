@@ -1,14 +1,14 @@
 package com.example.ecomver_web.model.request;
 
+import com.example.ecomver_web.model.entity.Category;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductRequest {
+public class ProductRequestDTO {
     private String productName;
     private Double price;
     private String image;

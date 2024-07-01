@@ -25,7 +25,6 @@ public interface OrderRepository {
 
     @Insert("INSERT INTO tbOrder (userId, totalAmount, isPaid) " +
             "VALUES (#{user.userId}, #{totalAmount}, #{isPaid})")
-    @Options(useGeneratedKeys = true, keyProperty = "orderId", keyColumn = "orderId")
     Long createOrder(Order order);
 
     @Select("SELECT * FROM tbOrder WHERE userId = #{userId}")

@@ -6,18 +6,24 @@ import org.apache.ibatis.annotations.*;
 public interface UserRepository{
 
     @Select("""
-    SELECT * FROM tbuser WHERE tbuser.username = #{username}
+    SELECT * FROM tbuser WHERE tbuser.username = #{email}
     """)
+    @Results(id = "userMapping",value = {
+            @Result(property = "userId",column = "userid"),
+            @Result(property = "email",column = "username"),
+            @Result(property = "phoneNumber",column = "phonenumber")
+    })
     User findUserByUsername(String username);
     @Insert("""
         INSERT INTO tbUser(username,phoneNumber,password)
-        VALUES (#{user.username}, #{user.phoneNumber}, #{user.password})
+        VALUES (#{user.email}, #{user.phoneNumber}, #{user.password})
     """)
     void createNewUser(@Param("user") User user);
 
     @Select("""
     SELECT * FROM tbuser WHERE userId = #{id}
     """)
+    @ResultMap("userMapping")
     UserResponse findUserById(@Param("id") int id);
 }
 

@@ -3,6 +3,7 @@ package com.example.ecomver_web.service.serviceimpl;
 import com.example.ecomver_web.model.entity.Category;
 import com.example.ecomver_web.model.entity.Product;
 import com.example.ecomver_web.model.request.ProductRequest;
+import com.example.ecomver_web.model.request.ProductRequestDTO;
 import com.example.ecomver_web.repository.CategoryRepository;
 import com.example.ecomver_web.repository.ProductRepository;
 import com.example.ecomver_web.service.ProductService;

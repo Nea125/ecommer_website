@@ -15,7 +15,6 @@ public interface CategoryRepository {
     List<Category> findAllCategory();
 
     @Insert("INSERT INTO tbCategory (categoryName) VALUES (#{categoryName})")
-    @Options(useGeneratedKeys = true, keyProperty = "categoryId")
     void addNewCategory(Category category);
 
     @Update("UPDATE tbCategory SET categoryName = #{categoryName} WHERE categoryId = #{categoryId}")

@@ -3,12 +3,16 @@ package com.example.ecomver_web.controller;
 import com.example.ecomver_web.model.entity.Product;
 import com.example.ecomver_web.model.request.ProductRequest;
 import com.example.ecomver_web.model.response.APIResponse;
+import com.example.ecomver_web.service.FileService;
 import com.example.ecomver_web.service.ProductService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -17,9 +21,10 @@ import java.util.List;
 @SecurityRequirement(name = "bearerAuth")
 public class ProductController {
     private final ProductService productService;
-
-    public ProductController(ProductService productService) {
+    private final FileService fileService;
+    public ProductController(ProductService productService, FileService fileService) {
         this.productService = productService;
+        this.fileService = fileService;
     }
 
     @GetMapping("/{id}")
@@ -46,8 +51,18 @@ public class ProductController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<APIResponse<Void>> createProduct(@RequestBody ProductRequest productRequest) {
+
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<APIResponse<Void>> createProduct(
+            @RequestParam("productName") String productName,
+            @RequestParam("price") Double price,
+            @RequestParam("description") String description,
+            @RequestParam("image") MultipartFile image,
+            @RequestParam("stockQuantity") Long stockQuantity,
+            @RequestParam("category") Long category) throws IOException {
+        String imageUrl = fileService.saveFile(image);
+        ProductRequest productRequest = new ProductRequest(
+                productName, price, description, imageUrl, stockQuantity, category);
         productService.addNewProduct(productRequest);
         APIResponse<Void> response = new APIResponse<>(
                 "Product added successfully",
@@ -55,6 +70,7 @@ public class ProductController {
                 null,
                 201,
                 LocalDateTime.now());
+
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 

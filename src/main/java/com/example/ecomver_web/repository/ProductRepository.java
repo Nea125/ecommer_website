@@ -25,7 +25,6 @@ public interface ProductRepository {
 
     @Insert("INSERT INTO tbProduct (productName, image, description, price, stockQTY, categoryId) " +
             "VALUES (#{productName}, #{image}, #{description}, #{price}, #{stockQuantity}, #{category.categoryId})")
-    @Options(useGeneratedKeys = true, keyProperty = "productId")
     void save(Product product);
 
     @Update("UPDATE tbProduct SET productName = #{productName}, image = #{image}, description = #{description}, " +

@@ -3,7 +3,6 @@ package com.example.ecomver_web.service.serviceimpl;
 import com.example.ecomver_web.model.CustomUserDetail;
 import com.example.ecomver_web.model.entity.User;
 import com.example.ecomver_web.model.request.UserRegisterRequest;
-import com.example.ecomver_web.model.response.UserRegisterResponse;
 import com.example.ecomver_web.repository.UserRepository;
 import com.example.ecomver_web.service.UserService;
 import org.modelmapper.ModelMapper;
@@ -34,10 +33,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserRegisterResponse createNewUser(UserRegisterRequest userRegisterRequest) {
+    public void createNewUser(UserRegisterRequest userRegisterRequest) {
         User user = mapper.map(userRegisterRequest, User.class);
         user.setPassword(passwordEncoder.encode(userRegisterRequest.getPassword()));
         userRepository.createNewUser(user);
-        return mapper.map(user, UserRegisterResponse.class);
     }
 }

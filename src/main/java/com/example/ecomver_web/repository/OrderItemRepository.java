@@ -13,7 +13,6 @@ public interface OrderItemRepository {
 
     @Insert("INSERT INTO tborderitem (orderId, productId, quantity) " +
             "VALUES (#{order.order.orderId}, #{order.product.productId}, #{order.quantity})")
-    @Options(useGeneratedKeys = true, keyProperty = "orderItem.orderItemId", keyColumn = "orderItemId")
     void addOrderItem(@Param("order") OrderItemRequest orderItem);
 
     @Select("SELECT * FROM tborderitem WHERE orderId = #{orderId}")
