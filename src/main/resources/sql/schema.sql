@@ -26,7 +26,7 @@ CREATE TABLE tbOrder (
                          userId INT,
                          FOREIGN KEY (userId) REFERENCES tbUser(userId),
                          orderDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                         totalAmount DOUBLE PRECISION,
+                         totalAmount FLOAT,
                          isPaid BOOLEAN DEFAULT FALSE
 );
 

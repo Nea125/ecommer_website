@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,7 +16,6 @@ public class Order {
     private UserResponse user;
     private LocalDateTime orderDate;
     private Double totalAmount;
-    private Byte isPaid;
-    List<OrderItem> orderItems;
+    private Boolean isPaid;
+    private List<OrderItem> orderItems;
 }
-

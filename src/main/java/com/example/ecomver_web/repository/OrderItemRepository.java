@@ -1,6 +1,5 @@
 package com.example.ecomver_web.repository;
 
-import com.example.ecomver_web.model.entity.Order;
 import com.example.ecomver_web.model.entity.OrderItem;
 import com.example.ecomver_web.model.entity.Product;
 import com.example.ecomver_web.model.request.OrderItemRequest;

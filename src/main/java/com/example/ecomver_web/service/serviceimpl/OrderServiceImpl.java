@@ -53,9 +53,6 @@ public class OrderServiceImpl implements OrderService {
         Order order = new Order();
         order.setUser(userResponse);
         order.setTotalAmount(0.0);
-        System.out.println(order.getUser());
-
-        // Crear la orden y obtener el orderId generado
         Long orderId = orderRepository.createOrder(order);
         if (orderId == null || orderId == -1) {
             throw new RuntimeException("Failed to create order");
@@ -88,7 +85,11 @@ public class OrderServiceImpl implements OrderService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User user = userRepository.findUserByUsername(username);
-
-        return orderRepository.getAllOrders(user.getUserId());
+        List<Order> orders = orderRepository.getAllOrders(user.getUserId());
+        for(Order order : orders){
+            UserResponse userResponse = modelMapper.map(user,UserResponse.class);
+            order.setUser(userResponse);
+        }
+        return orders;
     }
 }

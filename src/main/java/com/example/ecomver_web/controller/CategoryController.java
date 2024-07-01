@@ -75,10 +75,10 @@ public class CategoryController {
         categoryService.deleteCategoryById(id);
         APIResponse<Void> response = new APIResponse<>(
                 "Category deleted successfully",
-                HttpStatus.NO_CONTENT,
+                HttpStatus.OK,
                 null,
-                204,
+                200,
                 LocalDateTime.now());
-        return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

@@ -2,6 +2,7 @@ package com.example.ecomver_web.repository;
 
 import com.example.ecomver_web.model.entity.Order;
 import com.example.ecomver_web.model.entity.User;
+import com.example.ecomver_web.model.response.UserResponse;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -11,13 +12,13 @@ public interface OrderRepository {
 
     @Select("SELECT * FROM tbOrder WHERE orderId = #{id}")
     @Results(id = "orderMapping", value = {
-            @Result(property = "orderId", column = "orderId"),
-            @Result(property = "user", column = "userId", javaType = User.class,
-                    one = @One(select = "com.example.ecomver_web.repository.UserRepository.findUserById")),
-            @Result(property = "orderDate", column = "orderDate"),
-            @Result(property = "totalAmount", column = "totalAmount"),
-            @Result(property = "isPaid", column = "isPaid"),
-            @Result(property = "orderItems", column = "orderId",
+            @Result(property = "orderId", column = "orderid"),
+//            @Result(property = "user", column = "userid", javaType = UserResponse.class,
+//                    one = @One(select = "com.example.ecomver_web.repository.UserRepository.findUserById")),
+            @Result(property = "orderDate", column = "orderdate"),
+            @Result(property = "totalAmount", column = "totalamount"),
+            @Result(property = "isPaid", column = "ispaid"),
+            @Result(property = "orderItems", column = "orderid",
                     javaType = List.class,
                     many = @Many(select = "com.example.ecomver_web.repository.OrderItemRepository.findOrderItemsByOrderId"))
     })
