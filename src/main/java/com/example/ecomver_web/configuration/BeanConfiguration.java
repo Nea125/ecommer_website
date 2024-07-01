@@ -27,7 +27,7 @@ public class BeanConfiguration {
 
     @Bean
     public FirebaseApp initializeFirebase() throws IOException {
-        InputStream serviceAccount = new ClassPathResource("javaproject-f64e4-firebase-adminsdk-prywp-141a2aa784.json").getInputStream();
+        InputStream serviceAccount = new ClassPathResource("javaproject-f64e4-firebase-adminsdk-prywp-cfdc3e8544.json").getInputStream();
         FirebaseOptions options = FirebaseOptions.builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                 .setStorageBucket("javaproject-f64e4.appspot.com")
@@ -38,7 +38,7 @@ public class BeanConfiguration {
 
     @Bean
     public Storage storage() throws IOException {
-        InputStream serviceAccount = new ClassPathResource("javaproject-f64e4-firebase-adminsdk-prywp-141a2aa784.json").getInputStream();
+        InputStream serviceAccount = new ClassPathResource("javaproject-f64e4-firebase-adminsdk-prywp-cfdc3e8544.json").getInputStream();
         GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
         return StorageOptions.newBuilder().setCredentials(credentials).build().getService();
     }
